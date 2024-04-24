@@ -4,5 +4,4 @@ WORKDIR /running
 COPY . .
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
-CMD ["python3", "main.py"]
-
+CMD ["sh", "-c", "python3 main.py & python3 stress_cpu.py 30"]

@@ -1,8 +1,27 @@
-本示例仅用作后续项目的构建模板
+# MEC_SIMULATOR
+
+注意：本示例仅用作后续项目的构建模板
+
+## 部署
+
+本示例需要使用Docker部署，请先安装Docker
 
 将server_deploy文件夹拷贝到服务器相应位置，并在相应位置执行以下命令：  
-`docker build -t mec:latest .`  
-`docker run -d -p 7777:5000 --name edge-node mec:latest`  
-如果是在测试代码，可以将 `:latest` 改为 `:dev` 或具体版本号以作区分，并且在 `docker run` 命令中增加 `-it` 参数进入容器内的shell
+ `docker build -t mec:latest .`
 
-send_http_post.py可以实现简易调试
+ `docker run -d -p 7777:5000 --name edge-node mec:latest`
+
+在同一个服务器上多次执行 `docker run` 命令，部署多个vm，注意要修改 `-p` 参数为不同vm指定不同外部端口，避免物理机端口冲突；同时也要注意在 `--name` 修改容器名称，避免冲突  
+如果是在测试代码，可以将 `:latest` 改为 `:dev` 或具体版本号以作区分，并且将 `docker run` 命令中 `-d` 改为 `-it` 参数进入容器内的shell
+
+## 测试
+
+send_http_post.py可以实现http协议POST请求，测试flask的接口
+
+## MEC负载
+
+stress_cpu.py实现cpu压力测试，模拟CPU负载  
+已在Dockerfile中添加以下命令，如果要单独运行stress_cpu.py，请运行：  
+ `python3 stress_cpu.py 30`
+
+30表示CPU忙转程度为30%，空转70%
