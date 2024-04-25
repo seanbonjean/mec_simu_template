@@ -1,18 +1,21 @@
+import os
 import sys
 import time
-import subprocess
 
-cpu_percentage = sys.argv[1]
+env_str = os.environ.get('CPU_LOAD')
 
-if not cpu_percentage:
-    print("error")
-    sys.exit(1)
+if env_str:
+    try:
+        cpu_percentage = int(env_str)
+        print("CPU load:", cpu_percentage)
+    except ValueError:
+        print("Error: CPU load not valid")
+else:
+    print("cpu load NOT configured")
+    sys.exit()
 
 busy_time = float(cpu_percentage) / 100
 idle_time = 1 - busy_time
-
-print("busy ", busy_time)
-print("idle ", idle_time)
 
 while True:
     time.sleep(idle_time)
