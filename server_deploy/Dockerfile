@@ -5,4 +5,5 @@ COPY . .
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
 ENV NODE_NAME="edge-node"
+ENV DATA_DELAY="0.1"
 CMD ["sh", "-c", "python3 main.py & python3 post.py & python3 stress_cpu.py"]

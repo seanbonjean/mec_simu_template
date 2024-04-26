@@ -2,6 +2,7 @@ import os
 import sys
 import requests
 import time
+import random
 
 env_node = os.environ.get('NODE_NAME')
 if env_node:
@@ -20,6 +21,18 @@ else:
     print("dest IP NOT configured")
     sys.exit()
 
+env_delay = os.environ.get('DATA_DELAY')
+if env_delay:
+    try:
+        data_delay = float(env_delay)
+        print("data delay:", data_delay)
+    except ValueError:
+        print("Error: delay setting not valid")
+        sys.exit()
+else:
+    print("data delay NOT configured")
+    sys.exit()
+
 while True:
     # 轮询所有IP尝试注册
     for ip in ip_list:
@@ -30,6 +43,7 @@ while True:
             print('节点成功注册')
             while response.status_code == 200:
                 print('响应内容:', response.text)
+                time.sleep(random.uniform(0, data_delay))
                 url = 'http://' + ip + '/receive'
                 data = {'sender': node_name, 'message': 'hello'*1000}
                 response = requests.post(url, json=data)  # 发送json消息数据

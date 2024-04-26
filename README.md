@@ -9,12 +9,13 @@
 将server_deploy文件夹拷贝到服务器相应位置，并在相应位置执行以下命令：  
  `docker build -t mec:latest .`
 
- `docker run -d -p 7777:5000 --name edge-node --env NODE_NAME=edge-node --env DEST_IP=127.0.0.1:7777 --env CPU_LOAD=20 mec:latest`
+ `docker run -d -p 7777:5000 --name edge-node --env NODE_NAME=edge-node --env DEST_IP=127.0.0.1:7777 --env DATA_DELAY=0.2 --env CPU_LOAD=20 mec:latest`
 
 在同一个服务器上多次执行 `docker run` 命令，部署多个vm，注意要修改 `-p` 参数为不同vm指定不同外部端口，避免物理机端口冲突；同时也要注意在 `--name` 修改容器名称，避免冲突  
 DEST_IP表示通信的目标节点的IP地址和端口；可以输入多个IP:port，以逗号分隔，当一处地址下线时会前往寻找其他IP地址的节点  
+DATA_DELAY表示通信过程中数据包之间的最大延迟时间，通过它来控制通信引起的CPU负载：值越小，CPU负载越高；单位为秒，不通过命令指定则默认为0.1秒  
 CPU_LOAD表示模拟CPU负载的百分比，示例命令为20%，表示CPU忙转程度为20%，空转80%  
-不需要向其他节点发送信息时，删去NODE_NAME和DEST_IP环境变量；不需要CPU负载时，删去CPU_LOAD环境变量  
+不需要向其他节点发送信息时，删去NODE_NAME、DEST_IP和DATA_DELAY环境变量；不需要CPU负载时，删去CPU_LOAD环境变量  
 如果是在测试代码，可以将 `:latest` 改为 `:dev` 或具体版本号以作区分，并且将 `docker run` 命令中 `-d` 改为 `-it` 参数进入容器内的shell
 
 ## 测试

@@ -10,6 +10,7 @@ if env_str:
         print("CPU load:", cpu_percentage)
     except ValueError:
         print("Error: CPU load not valid")
+        sys.exit()
 else:
     print("cpu load NOT configured")
     sys.exit()
