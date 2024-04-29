@@ -25,6 +25,8 @@ send_http_post.py可以实现http协议POST请求，测试flask的接口
 server_cmd文件夹中保存了一些shell脚本，方便使用  
 使用前请先赋予运行权限： `chmod +x *.sh`
 
+使用record_status.py收集的信息可由status2excel.py转换为excel文件方便记录
+
 运行rm_every_container.sh时：如果没有正在运行中的容器，docker stop命令会报一下错；如果没有任何容器，docker rm命令也会报一下错。忽视即可
 
 ## 各文件功能
